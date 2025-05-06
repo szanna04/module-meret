@@ -67,24 +67,30 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.size) {
-                        document.getElementById('resultSize').innerText = "A méreted: " + data.size;
-                        document.getElementById('sizeNote').style.display = 'none';
-                    } else {
-                        document.getElementById('resultSize').innerText = "A méreted: Ismeretlen";
-                        document.getElementById('sizeNote').style.display = 'block';
-                        document.getElementById('sizeNote').innerHTML = `
-                Sajnos jelenleg nincs megfelelő sablonméret az Ön adatai alapján. <br />
-                Kérjük, egyeztessen időpontot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
+                    const resultEl = document.getElementById('resultSize');
+                    const finalContent = document.getElementById('finalContent');
+                    const img = document.querySelector('#wizardModal img.side-image');
+
+                    if (!data.size) {
+                        resultEl.innerHTML = `
+                <strong>Sajnáljuk</strong>, jelenleg nincs megfelelő sablonméret az Ön adatai alapján.<br>
+                Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
             `;
-                        const img = document.querySelector('#wizardModal img.side-image');
+                        finalContent.innerHTML = `
+                <strong>Sajnáljuk</strong>, jelenleg nincs megfelelő sablonméret az Ön adatai alapján.<br>
+                Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
+            `;
                         if (img) {
                             img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png';
                         }
                     }
+
                     nextStep('step5', 'result');
                 });
         }
+
+
+
 
 
 
@@ -354,17 +360,21 @@
             </div>
 
 
-            <!-- A többi step változatlan marad (step2–step5) -->
+
             <!-- RESULT -->
             <div id="result" class="wizard-step">
-                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                    <h2 id="resultSize" style="color:#4F4239; font-size: 28px; margin-bottom: 20px;"></h2>
-                    <p id="sizeNote" style="color:#4F4239; font-size: 16px; display: none;">
-                        Sajnos nincs megfelelő sablonméret az Ön adatai alapján. Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítségért!
-                    </p>
+                <div id="resultSize" style="color:#4F4239; font-size: 28px; margin-bottom: 30px; line-height: 1.5;">
+                    <!-- Dinamikus tartalom kerül ide -->
+                </div>
+
+                <div style="display: flex; gap: 20px;">
                     <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
+                    <button type="button" class="wizard-button" onclick="nextStep('result', 'step6')">Tovább</button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+
