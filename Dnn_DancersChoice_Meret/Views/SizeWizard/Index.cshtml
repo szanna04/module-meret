@@ -35,9 +35,9 @@
 
             if (next === 'step4') {
                 const category = formData["category"];
-                document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Szoknya') ? 'block' : 'none';
-                document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
-                document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
+                document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver') ? 'block' : 'none';
+                document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
+                document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
                 document.getElementById('legLengthGroup').style.display = (category === 'Nadrág') ? 'block' : 'none';
             }
         }
@@ -314,29 +314,6 @@
                     <button type="button" class="wizard-button" onclick="nextStep('step3', 'step4')">Folytatás</button>
                 </div>
             </div>
-            <!-- STEP 4: további méretek -->
-            <div id="step4" class="wizard-step">
-                <div id="bustSizeGroup">
-                    <label class="input-label">Mellkasméret (cm):</label>
-                    <input type="number" onchange="saveValue('bustSize', this.value)" />
-                </div>
-                <div id="hipSizeGroup">
-                    <label class="input-label">Csípőméret (cm):</label>
-                    <input type="number" onchange="saveValue('hipSize', this.value)" />
-                </div>
-                <div id="waistSizeGroup">
-                    <label class="input-label">Derékméret (cm):</label>
-                    <input type="number" onchange="saveValue('waistSize', this.value)" />
-                </div>
-                <div id="legLengthGroup">
-                    <label class="input-label">Lábszárhossz (cm):</label>
-                    <input type="number" onchange="saveValue('legLength', this.value)" />
-                </div>
-                <div style="margin-top: 20px;">
-                    <button type="button" class="wizard-button back" onclick="prevStep('step4', 'step3')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="nextStep('step4', 'step5')">Folytatás</button>
-                </div>
-            </div>
             <!-- STEP 5: szabási preferencia -->
             <div id="step5" class="wizard-step">
                 <label class="input-label">Szabási preferencia:</label><br />
@@ -353,6 +330,57 @@
                 </div>
             </div>
 
+            <!-- STEP 4: további méretek -->
+            <div id="step4" class="wizard-step">
+                <div id="bustSizeGroup">
+                    <label class="input-label">Mellkasméret (cm):</label>
+                    <select id="bustSize" onchange="saveValue('bustSize', this.value)">
+                        <option value="">Válassz mellkasméretet</option>
+                        <option value="70-79">70–79</option>
+                        <option value="80-89">80–89</option>
+                        <option value="90-99">90–99</option>
+                        <option value="100-109">100–109</option>
+                        <option value="110-119">110–119</option>
+                    </select>
+                </div>
+                <div id="hipSizeGroup">
+                    <label class="input-label">Csípőméret (cm):</label>
+                    <select id="hipSize" onchange="saveValue('hipSize', this.value)">
+                        <option value="">Válassz csípőméretet</option>
+                        <option value="80-89">80–89</option>
+                        <option value="90-99">90–99</option>
+                        <option value="100-109">100–109</option>
+                        <option value="110-119">110–119</option>
+                        <option value="120-129">120–129</option>
+                    </select>
+                </div>
+                <div id="waistSizeGroup">
+                    <label class="input-label">Derékméret (cm):</label>
+                    <select id="waistSize" onchange="saveValue('waistSize', this.value)">
+                        <option value="">Válassz derékbőséget</option>
+                        <option value="60-69">60–69</option>
+                        <option value="70-79">70–79</option>
+                        <option value="80-89">80–89</option>
+                        <option value="90-99">90–99</option>
+                        <option value="100-109">100–109</option>
+                    </select>
+                </div>
+                <div id="legLengthGroup">
+                    <label class="input-label">Lábszárhossz (cm):</label>
+                    <select id="legLength" onchange="saveValue('legLength', this.value)">
+                        <option value="">Válassz lábszárhosszt</option>
+                        <option value="60-69">60–69</option>
+                        <option value="70-79">70–79</option>
+                        <option value="80-89">80–89</option>
+                        <option value="90-99">90–99</option>
+                        <option value="100-109">100–109</option>
+                    </select>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button type="button" class="wizard-button back" onclick="prevStep('step4', 'step3')">Vissza</button>
+                    <button type="button" class="wizard-button" onclick="saveValue('bustSize', document.getElementById('bustSize').value); saveValue('hipSize', document.getElementById('hipSize').value); saveValue('waistSize', document.getElementById('waistSize').value); saveValue('legLength', document.getElementById('legLength').value); nextStep('step4', 'step5')">Folytatás</button>
+                </div>
+            </div>
 
 
             <!-- RESULT -->
