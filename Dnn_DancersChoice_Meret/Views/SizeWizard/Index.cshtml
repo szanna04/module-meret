@@ -7,6 +7,10 @@
 @section Scripts {
     <script>
         let formData = {};
+        const img = document.querySelector('#wizardModal img.side-image');
+        if (img) {
+            img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png';
+        }
 
         function saveValue(key, value) {
             formData[key] = value;
@@ -16,9 +20,21 @@
             document.getElementById(current).style.display = 'none';
             document.getElementById(next).style.display = 'block';
 
+            if (formData.category) {
+                const imageMap = {
+                    'Dressz': 'dressz.jpg',
+                    'Nadrág': 'naci.jpg',
+                    'Szoknya': 'szoknya.png',
+                    'Pulóver': 'pulcsi.jpg'
+                };
+                const img = document.querySelector('#wizardModal img.side-image');
+                if (img && imageMap[formData.category]) {
+                    img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/' + imageMap[formData.category];
+                }
+            }
+
             if (next === 'step4') {
                 const category = formData["category"];
-
                 document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Szoknya') ? 'block' : 'none';
                 document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
                 document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
@@ -77,6 +93,7 @@
             saveValue(key, value);
         }
     </script>
+
 
     <style>
         body {
@@ -183,6 +200,7 @@
             }
     </style>
 }
+
 
 <button type="button" id="openWizardBtn">MI A MÉRETEM?</button>
 

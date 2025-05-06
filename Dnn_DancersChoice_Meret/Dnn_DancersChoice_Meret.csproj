@@ -130,8 +130,12 @@
     <Content Include="Documentation\Documentation.css" />
     <Content Include="Documentation\Documentation.html" />
     <Content Include="Images\csipo.png" />
+    <Content Include="Images\dressz.jpg" />
     <Content Include="Images\has.png" />
     <Content Include="Images\mind.png" />
+    <Content Include="Images\naci.jpg" />
+    <Content Include="Images\pulcsi.jpg" />
+    <Content Include="Images\szoknya.png" />
     <Content Include="License.txt" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
