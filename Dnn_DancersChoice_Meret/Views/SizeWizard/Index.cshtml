@@ -56,9 +56,10 @@
             }
         }
 
-
         function submitWizard() {
-            fetch("/DesktopModules/Dnn_DancersChoice_Meret/API/SizeApi/GetRecommendedSize", {
+            const serviceRoot = $.dnnSF().getServiceRoot("Dnn_DancersChoice_Meret");
+
+            fetch(serviceRoot + "SizeApi/GetRecommendedSize", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -67,30 +68,23 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    const resultEl = document.getElementById('resultSize');
-                    const finalContent = document.getElementById('finalContent');
-                    const img = document.querySelector('#wizardModal img.side-image');
+                    const resultSize = document.getElementById('resultSize');
+                    const sizePrefix = document.getElementById('sizePrefix');
+                    const unknownMessage = document.getElementById('unknownSizeMessage');
 
-                    if (!data.size) {
-                        resultEl.innerHTML = `
-                <strong>Sajnáljuk</strong>, jelenleg nincs megfelelő sablonméret az Ön adatai alapján.<br>
-                Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
-            `;
-                        finalContent.innerHTML = `
-                <strong>Sajnáljuk</strong>, jelenleg nincs megfelelő sablonméret az Ön adatai alapján.<br>
-                Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
-            `;
-                        if (img) {
-                            img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png';
-                        }
+                    if (data.size && data.size !== "Ismeretlen") {
+                        sizePrefix.innerText = "A méreted: ";
+                        resultSize.innerText = data.size;
+                        unknownMessage.style.display = "none";
+                        nextStep('step5', 'result');
+                    } else {
+                        sizePrefix.innerText = "A méreted:";
+                        resultSize.innerText = "Ismeretlen";
+                        unknownMessage.style.display = "block";
+                        nextStep('step5', 'result');
                     }
-
-                    nextStep('step5', 'result');
                 });
         }
-
-
-
 
 
 
@@ -363,15 +357,21 @@
 
             <!-- RESULT -->
             <div id="result" class="wizard-step">
-                <div id="resultSize" style="color:#4F4239; font-size: 28px; margin-bottom: 30px; line-height: 1.5;">
-                    <!-- Dinamikus tartalom kerül ide -->
+                <div id="resultText" style="color:#4F4239; font-size: 28px; margin-bottom: 30px; line-height: 1.5;">
+                    <span id="sizePrefix"></span>
+                    <span id="resultSize"></span>
+                </div>
+
+                <div id="unknownSizeMessage" style="display: none; color: #4F4239; font-size: 18px; margin-bottom: 30px;">
+                    <strong>Sajnáljuk</strong>, jelenleg nincs megfelelő sablonméret az Ön adatai alapján.<br>
+                    Kérjük, vegye fel a kapcsolatot ügyfélszolgálatunkkal személyre szabott segítség érdekében.
                 </div>
 
                 <div style="display: flex; gap: 20px;">
                     <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
-                    <button type="button" class="wizard-button" onclick="nextStep('result', 'step6')">Tovább</button>
                 </div>
             </div>
+
 
         </div>
     </div>
