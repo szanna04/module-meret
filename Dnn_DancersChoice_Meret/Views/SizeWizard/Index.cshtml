@@ -15,6 +15,15 @@
         function nextStep(current, next) {
             document.getElementById(current).style.display = 'none';
             document.getElementById(next).style.display = 'block';
+
+            if (next === 'step4') {
+                const category = formData["category"];
+
+                document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Szoknya') ? 'block' : 'none';
+                document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
+                document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver') ? 'block' : 'none';
+                document.getElementById('legLengthGroup').style.display = (category === 'Nadrág') ? 'block' : 'none';
+            }
         }
 
         function prevStep(current, previous) {
@@ -30,23 +39,21 @@
                 },
                 body: JSON.stringify(formData)
             })
-
-
-            .then(response => response.json())
-            .then(data => {
-                if (data.size) {
-                    document.getElementById('resultSize').innerText = "A méreted: " + data.size;
-                    nextStep('step5', 'result');
-                } else {
-                    alert("Nem sikerült méretet meghatározni.");
-                }
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.size) {
+                        document.getElementById('resultSize').innerText = "A méreted: " + data.size;
+                        nextStep('step5', 'result');
+                    } else {
+                        alert("Nem sikerült méretet meghatározni.");
+                    }
+                });
         }
 
         function restartWizard() {
             const steps = document.querySelectorAll('.wizard-step');
             steps.forEach(step => step.style.display = 'none');
-            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step0').style.display = 'block';
             formData = {};
         }
 
@@ -55,7 +62,7 @@
                 document.getElementById('wizardModal').style.display = 'block';
                 const steps = document.querySelectorAll('.wizard-step');
                 steps.forEach(step => step.style.display = 'none');
-                document.getElementById('step1').style.display = 'block';
+                document.getElementById('step0').style.display = 'block';
             });
 
             document.getElementById('closeWizardBtn').addEventListener('click', function () {
@@ -184,11 +191,21 @@
         <div>
             <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png" alt="Bábu" class="side-image">
         </div>
-
         <div style="flex:1">
             <button id="closeWizardBtn" class="close-modal">&times;</button>
 
-            <!-- STEP 1 -->
+            <!-- STEP 0 -->
+            <div id="step0" class="wizard-step">
+                <label class="input-label">Milyen ruhadarabhoz keresel méretet?</label>
+                <div>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'category', 'Dressz'); nextStep('step0', 'step1');">Dressz</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'category', 'Nadrág'); nextStep('step0', 'step1');">Nadrág</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'category', 'Szoknya'); nextStep('step0', 'step1');">Szoknya</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'category', 'Pulóver'); nextStep('step0', 'step1');">Pulóver</button>
+                </div>
+            </div>
+
+            <!-- STEP 1: magasság, súly -->
             <div id="step1" class="wizard-step">
                 <label class="input-label">Magasság (cm):</label>
                 <select id="height">
@@ -200,7 +217,6 @@
                     <option value="191-210">191–210</option>
                     <option value="211-250">211–250</option>
                 </select>
-
                 <label class="input-label">Súly (kg):</label>
                 <select id="weight">
                     <option value="">Válassz súlyt</option>
@@ -211,16 +227,10 @@
                     <option value="101-120">101–120</option>
                     <option value="121-200">121–200</option>
                 </select>
-
-                <button type="button" class="wizard-button"
-                        onclick="saveValue('height', document.getElementById('height').value);
-                                 saveValue('weight', document.getElementById('weight').value);
-                                 nextStep('step1', 'step2');">
-                    Folytatás
-                </button>
+                <button type="button" class="wizard-button" onclick="saveValue('height', document.getElementById('height').value); saveValue('weight', document.getElementById('weight').value); nextStep('step1', 'step2');">Folytatás</button>
             </div>
 
-            <!-- STEP 2 -->
+            <!-- STEP 2: hasforma -->
             <div id="step2" class="wizard-step">
                 <label class="input-label">Hasad formája:</label><br />
                 <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/has.png" alt="Has formája" class="side-image" />
@@ -233,7 +243,7 @@
                 <button type="button" class="wizard-button" onclick="nextStep('step2', 'step3')">Folytatás</button>
             </div>
 
-            <!-- STEP 3 -->
+            <!-- STEP 3: csípőforma -->
             <div id="step3" class="wizard-step">
                 <label class="input-label">Csípőd formája:</label><br />
                 <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/csipo.png" alt="Csípő formája" class="side-image" />
@@ -246,18 +256,29 @@
                 <button type="button" class="wizard-button" onclick="nextStep('step3', 'step4')">Folytatás</button>
             </div>
 
-            <!-- STEP 4 -->
+            <!-- STEP 4: további méretek -->
             <div id="step4" class="wizard-step">
-                <label class="input-label">Mellkasméret (cm):</label>
-                <input type="number" id="bustSize" />
+                <div id="bustSizeGroup">
+                    <label class="input-label">Mellkasméret (cm):</label>
+                    <input type="number" onchange="saveValue('bustSize', this.value)" />
+                </div>
+                <div id="hipSizeGroup">
+                    <label class="input-label">Csípőméret (cm):</label>
+                    <input type="number" onchange="saveValue('hipSize', this.value)" />
+                </div>
+                <div id="waistSizeGroup">
+                    <label class="input-label">Derékméret (cm):</label>
+                    <input type="number" onchange="saveValue('waistSize', this.value)" />
+                </div>
+                <div id="legLengthGroup">
+                    <label class="input-label">Lábszárhossz (cm):</label>
+                    <input type="number" onchange="saveValue('legLength', this.value)" />
+                </div>
                 <button type="button" class="wizard-button back" onclick="prevStep('step4', 'step3')">Vissza</button>
-                <button type="button" class="wizard-button"
-                        onclick="saveValue('bustSize', document.getElementById('bustSize').value); nextStep('step4', 'step5');">
-                    Folytatás
-                </button>
+                <button type="button" class="wizard-button" onclick="nextStep('step4', 'step5')">Folytatás</button>
             </div>
 
-            <!-- STEP 5 -->
+            <!-- STEP 5: szabási preferencia -->
             <div id="step5" class="wizard-step">
                 <label class="input-label">Szabási preferencia:</label><br />
                 <div>
@@ -274,14 +295,12 @@
             <!-- RESULT -->
             <div id="result" class="wizard-step">
                 <div style="display: flex; align-items: center; gap: 40px;">
-
                     <div style="flex: 1;">
                         <h2 id="resultSize" style="color:#4F4239; font-size: 28px; margin-bottom: 30px;"></h2>
                         <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
