@@ -1,0 +1,35 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable<Dancers.Dnn.Dnn_DancersChoice_Meret.Models.SizeRecommendation>>
+
+@{
+    ViewBag.Title = "Méretajánló táblázat";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Min Bust (cm)</th>
+            <th>Max Bust (cm)</th>
+            <th>Min Waist (cm)</th>
+            <th>Max Waist (cm)</th>
+            <th>Min Hip (cm)</th>
+            <th>Max Hip (cm)</th>
+            <th>Ajánlott Méret</th>  @* ez lesz a SizeLabel *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MinBust</td>
+                <td>@item.MaxBust</td>
+                <td>@item.MinWaist</td>
+                <td>@item.MaxWaist</td>
+                <td>@item.MinHip</td>
+                <td>@item.MaxHip</td>
+                <td>@item.SizeLabel</td> @* ITT javítottuk RecommendedSize helyett SizeLabel-re *@
+            </tr>
+        }
+    </tbody>
+</table>

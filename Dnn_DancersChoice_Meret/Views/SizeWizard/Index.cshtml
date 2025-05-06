@@ -1,0 +1,287 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
+
+@{
+    Layout = "~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script>
+        let formData = {};
+
+        function saveValue(key, value) {
+            formData[key] = value;
+        }
+
+        function nextStep(current, next) {
+            document.getElementById(current).style.display = 'none';
+            document.getElementById(next).style.display = 'block';
+        }
+
+        function prevStep(current, previous) {
+            document.getElementById(current).style.display = 'none';
+            document.getElementById(previous).style.display = 'block';
+        }
+
+        function submitWizard() {
+            fetch("/DesktopModules/Dnn_DancersChoice_Meret/API/SizeApi/GetRecommendedSize", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+
+            .then(response => response.json())
+            .then(data => {
+                if (data.size) {
+                    document.getElementById('resultSize').innerText = "A méreted: " + data.size;
+                    nextStep('step5', 'result');
+                } else {
+                    alert("Nem sikerült méretet meghatározni.");
+                }
+            });
+        }
+
+        function restartWizard() {
+            const steps = document.querySelectorAll('.wizard-step');
+            steps.forEach(step => step.style.display = 'none');
+            document.getElementById('step1').style.display = 'block';
+            formData = {};
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('openWizardBtn').addEventListener('click', function () {
+                document.getElementById('wizardModal').style.display = 'block';
+                const steps = document.querySelectorAll('.wizard-step');
+                steps.forEach(step => step.style.display = 'none');
+                document.getElementById('step1').style.display = 'block';
+            });
+
+            document.getElementById('closeWizardBtn').addEventListener('click', function () {
+                document.getElementById('wizardModal').style.display = 'none';
+            });
+        });
+
+        function setChoice(button, key, value) {
+            const group = button.parentElement;
+            group.querySelectorAll('.choice-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            saveValue(key, value);
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FEFEF6;
+            font-family: sans-serif;
+        }
+
+        #openWizardBtn {
+            background-color: #4F4239;
+            color: #FEFEF6;
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #wizardModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background: #FEFEF6;
+            max-width: 900px;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+
+            .modal-content img.side-image {
+                max-width: 300px;
+                border-radius: 12px;
+            }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #4F4239;
+            cursor: pointer;
+        }
+
+        .wizard-step {
+            display: none;
+        }
+
+        .input-label {
+            color: #4F4239;
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #EACCC0;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .wizard-button {
+            background-color: #4F4239;
+            color: #FEFEF6;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            margin: 10px 5px 0 0;
+            cursor: pointer;
+        }
+
+            .wizard-button.back {
+                background-color: transparent;
+                color: #4F4239;
+                border: 2px solid #4F4239;
+            }
+
+        .choice-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #EACCC0;
+            color: #4F4239;
+            font-weight: bold;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+            .choice-button.active {
+                background-color: #4F4239;
+                color: #FEFEF6;
+            }
+    </style>
+}
+
+<button type="button" id="openWizardBtn">MI A MÉRETEM?</button>
+
+<div id="wizardModal">
+    <div class="modal-content">
+        <div>
+            <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png" alt="Bábu" class="side-image">
+        </div>
+
+        <div style="flex:1">
+            <button id="closeWizardBtn" class="close-modal">&times;</button>
+
+            <!-- STEP 1 -->
+            <div id="step1" class="wizard-step">
+                <label class="input-label">Magasság (cm):</label>
+                <select id="height">
+                    <option value="">Válassz magasságot</option>
+                    <option value="100-140">100–140</option>
+                    <option value="141-160">141–160</option>
+                    <option value="161-170">161–170</option>
+                    <option value="171-190">171–190</option>
+                    <option value="191-210">191–210</option>
+                    <option value="211-250">211–250</option>
+                </select>
+
+                <label class="input-label">Súly (kg):</label>
+                <select id="weight">
+                    <option value="">Válassz súlyt</option>
+                    <option value="30-40">30–40</option>
+                    <option value="41-60">41–60</option>
+                    <option value="61-80">61–80</option>
+                    <option value="81-100">81–100</option>
+                    <option value="101-120">101–120</option>
+                    <option value="121-200">121–200</option>
+                </select>
+
+                <button type="button" class="wizard-button"
+                        onclick="saveValue('height', document.getElementById('height').value);
+                                 saveValue('weight', document.getElementById('weight').value);
+                                 nextStep('step1', 'step2');">
+                    Folytatás
+                </button>
+            </div>
+
+            <!-- STEP 2 -->
+            <div id="step2" class="wizard-step">
+                <label class="input-label">Hasad formája:</label><br />
+                <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/has.png" alt="Has formája" class="side-image" />
+                <div>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'bellyShape', 'Lapos')">Lapos</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'bellyShape', 'Közepes')">Közepes</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'bellyShape', 'Terjedelmes')">Terjedelmes</button>
+                </div>
+                <button type="button" class="wizard-button back" onclick="prevStep('step2', 'step1')">Vissza</button>
+                <button type="button" class="wizard-button" onclick="nextStep('step2', 'step3')">Folytatás</button>
+            </div>
+
+            <!-- STEP 3 -->
+            <div id="step3" class="wizard-step">
+                <label class="input-label">Csípőd formája:</label><br />
+                <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/csipo.png" alt="Csípő formája" class="side-image" />
+                <div>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'hipShape', 'Egyenes')">Egyenes</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'hipShape', 'Közepes')">Közepes</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'hipShape', 'Bő')">Bő</button>
+                </div>
+                <button type="button" class="wizard-button back" onclick="prevStep('step3', 'step2')">Vissza</button>
+                <button type="button" class="wizard-button" onclick="nextStep('step3', 'step4')">Folytatás</button>
+            </div>
+
+            <!-- STEP 4 -->
+            <div id="step4" class="wizard-step">
+                <label class="input-label">Mellkasméret (cm):</label>
+                <input type="number" id="bustSize" />
+                <button type="button" class="wizard-button back" onclick="prevStep('step4', 'step3')">Vissza</button>
+                <button type="button" class="wizard-button"
+                        onclick="saveValue('bustSize', document.getElementById('bustSize').value); nextStep('step4', 'step5');">
+                    Folytatás
+                </button>
+            </div>
+
+            <!-- STEP 5 -->
+            <div id="step5" class="wizard-step">
+                <label class="input-label">Szabási preferencia:</label><br />
+                <div>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon szűk')">Nagyon szűk</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Szűk')">Szűk</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Átlagos')">Átlagos</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Bő')">Bő</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon bő')">Nagyon bő</button>
+                </div>
+                <button type="button" class="wizard-button back" onclick="prevStep('step5', 'step4')">Vissza</button>
+                <button type="button" class="wizard-button" style="margin-top: 20px;" onclick="submitWizard()">Ajánlott méret megjelenítése</button>
+            </div>
+
+            <!-- RESULT -->
+            <div id="result" class="wizard-step">
+                <div style="display: flex; align-items: center; gap: 40px;">
+
+                    <div style="flex: 1;">
+                        <h2 id="resultSize" style="color:#4F4239; font-size: 28px; margin-bottom: 30px;"></h2>
+                        <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
