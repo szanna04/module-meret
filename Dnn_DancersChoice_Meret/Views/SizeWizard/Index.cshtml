@@ -1,4 +1,4 @@
-﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
+﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
 
 @{
     Layout = "~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Views/Shared/_Layout.cshtml";
@@ -42,7 +42,7 @@
             }
         }
 
-       
+
         function prevStep(current, previous) {
             document.getElementById(current).style.display = 'none';
             document.getElementById(previous).style.display = 'flex';
@@ -113,7 +113,7 @@
             nextStep('result', 'offersStep');
         }
 
-        
+
         function goToCategoryPage() {
             const categorySlugMap = {
                 'Dressz': 'ruha',
@@ -451,5 +451,3 @@
         </div>
     </div>
 </div>
-
-
