@@ -71,20 +71,25 @@
                     const resultSize = document.getElementById('resultSize');
                     const sizePrefix = document.getElementById('sizePrefix');
                     const unknownMessage = document.getElementById('unknownSizeMessage');
+                    const viewOffersBtn = document.getElementById('viewOffersBtn');
 
                     if (data.size && data.size !== "Ismeretlen") {
                         sizePrefix.innerText = "A méreted: ";
                         resultSize.innerText = data.size;
                         unknownMessage.style.display = "none";
+                        viewOffersBtn.style.display = 'inline-block';
                         nextStep('step5', 'result');
                     } else {
                         sizePrefix.innerText = "A méreted:";
                         resultSize.innerText = "Ismeretlen";
                         unknownMessage.style.display = "block";
+                        viewOffersBtn.style.display = 'none';
                         nextStep('step5', 'result');
                     }
                 });
         }
+
+
 
 
 
@@ -97,6 +102,10 @@
             if (img) {
                 img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png';
             }
+        }
+
+        function goToOffers() {
+            nextStep('result', 'offersStep');
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -397,8 +406,19 @@
 
                 <div style="display: flex; gap: 20px;">
                     <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
+                    <button type="button" class="wizard-button" id="viewOffersBtn" onclick="goToOffers()" style="display: none;">Ajánlatok megtekintése</button>
                 </div>
             </div>
+
+            <!-- OFFERS STEP -->
+            <div id="offersStep" class="wizard-step">
+                <h2>Ajánlott termékek</h2>
+                <p>Itt fognak megjelenni a méretedhez és választott kategóriádhoz illő ruhák.</p>
+
+                <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
+                <button type="button" class="wizard-button back" onclick="prevStep('offersStep', 'result')">Vissza</button>
+            </div>
+
 
 
         </div>
