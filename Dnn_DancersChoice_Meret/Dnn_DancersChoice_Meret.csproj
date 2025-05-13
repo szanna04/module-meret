@@ -183,6 +183,7 @@
     <Content Include="Views\Settings\Settings.cshtml" />
     <Content Include="Views\SizeRecommendation\Index.cshtml" />
     <Content Include="Views\SizeWizard\Index.cshtml" />
+    <Content Include="Adat\Hotcakes_Products.xlsx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

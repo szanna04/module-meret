@@ -20,7 +20,14 @@
             document.getElementById(current).style.display = 'none';
             document.getElementById(next).style.display = 'flex';
 
-            if (formData.category) {
+            // Kép megjelenítése vagy elrejtése
+            const sideImgContainer = document.querySelector('#wizardModal img.side-image')?.parentElement;
+            if (sideImgContainer) {
+                sideImgContainer.style.display = (next === 'offersStep') ? 'none' : 'block';
+            }
+
+            // Kategóriakép frissítése
+            if (formData.category && next !== 'offersStep') {
                 const imageMap = {
                     'Dressz': 'dressz.jpg',
                     'Nadrág': 'naci.jpg',
@@ -32,15 +39,8 @@
                     img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/' + imageMap[formData.category];
                 }
             }
-
-            if (next === 'step4') {
-                const category = formData["category"];
-                document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver') ? 'block' : 'none';
-                document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
-                document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
-                document.getElementById('legLengthGroup').style.display = (category === 'Nadrág') ? 'block' : 'none';
-            }
         }
+
 
 
         function prevStep(current, previous) {
@@ -54,7 +54,14 @@
                     img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png';
                 }
             }
+
+            // Ha visszalépünk az offersStep-ről, jelenjen meg újra a bal oldali kép
+            const sideImg = document.getElementById('sideImageContainer');
+            if (sideImg && previous !== 'offersStep') {
+                sideImg.style.display = 'block';
+            }
         }
+
 
         function submitWizard() {
             const serviceRoot = $.dnnSF().getServiceRoot("Dnn_DancersChoice_Meret");
@@ -264,6 +271,47 @@
                 background-color: #4F4239;
                 color: #FEFEF6;
             }
+
+        #offersStep h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #offersStep p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        #productSuggestions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+
+        .product-card {
+            width: 180px;
+            max-width: 100%;
+            font-size: 13px;
+            background-color: #fdfdfd;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+
+            .product-card:hover {
+                transform: translateY(-3px);
+            }
+
+            .product-card img {
+                max-width: 100%;
+                border-radius: 8px;
+            }
+
     </style>
 }
 
@@ -439,10 +487,25 @@
             <!-- OFFERS STEP -->
             <div id="offersStep" class="wizard-step">
                 <h2>Ajánlott termékek</h2>
-                <p>Itt fognak megjelenni a méretedhez és választott kategóriádhoz illő ruhák.</p>
 
-                <button type="button" class="wizard-button" onclick="restartWizard()">Újrakezdés</button>
-                <button type="button" class="wizard-button back" onclick="prevStep('offersStep', 'result')">Vissza</button>
+                <div class="product-card">
+                    <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug//black-grace-balett-leggings-hímzett-balerina-motívummal">
+                        <img src="https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Legg_2.jpg" alt="Black Grace Balett Leggings Hímzett Balerina Motívummal" />
+                        <h4>"Black Grace" Balett Leggings Hímzett Balerina Motívummal</h4>
+                        <p>7 000,00 Ft</p>
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug//étoile-charcoal-balerina-joggings-nadrág">
+                        <img src="https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Jogg_4.jpg" alt="Étoile Charcoal Balerina Joggings Nadrág" />
+                        <h4>"Étoile Charcoal" Balerina Joggings Nadrág</h4>
+                        <p>7 500,00 Ft</p>
+                    </a>
+                </div>
+
+
+                              
                 <button type="button" class="wizard-button" id="viewWebshopCategoryBtn" onclick="goToCategoryPage()" style="display: none;">Tovább a kategóriára</button>
             </div>
 
