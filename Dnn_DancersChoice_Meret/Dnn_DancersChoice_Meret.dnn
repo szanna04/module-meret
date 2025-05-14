@@ -1,101 +1,102 @@
-<dotnetnuke type="Package" version="5.0">
-	<packages>
-		<package name="Dnn_DancersChoice_Meret" type="Module" version="00.00.01">
-			<friendlyName>Dnn_DancersChoice_Meret</friendlyName>
-			<description>Dnn_DancersChoice_Meret</description>
-			<iconFile>~/Icons/Sigma/Software_32X32_Standard.png</iconFile>
-			<owner>
-				<name>ITGirls</name>
-				<organization>ITGirls</organization>
-				<url>http://www.dnndev.me/</url>
-				<email>anna.szerdahelyi@stud.uni-corvinus.hu</email>
-			</owner>
-			<license src="License.txt" />
-			<releaseNotes src="ReleaseNotes.txt" />
-			<dependencies>
-				<dependency type="CoreVersion">09.08.00</dependency>
-			</dependencies>
-			<components>
-				<component type="Script">
-					<scripts>
-						<basePath>DesktopModules\MVC\Dnn_DancersChoice_Meret</basePath>
-						<script type="Install">
-							<path>Providers\DataProviders\SqlDataProvider</path>
-							<name>00.00.01.SqlDataProvider</name>
-							<version>00.00.01</version>
-						</script>
-						<script type="UnInstall">
-							<path>Providers\DataProviders\SqlDataProvider</path>
-							<name>Uninstall.SqlDataProvider</name>
-							<version>00.00.01</version>
-						</script>
-					</scripts>
-				</component>
-				<component type="ResourceFile">
-					<resourceFiles>
-						<basePath>DesktopModules/MVC/Dnn_DancersChoice_Meret</basePath>
-						<resourceFile>
-							<name>Resources.zip</name>
-						</resourceFile>
-					</resourceFiles>
-				</component>
-				<component type="Module">
-					<desktopModule>
-						<moduleName>Dnn_DancersChoice_Meret</moduleName>
-						<foldername>Dnn_DancersChoice_Meret</foldername>
-						<businessControllerClass>Dancers.Dnn.Dnn_DancersChoice_Meret.Components.FeatureController</businessControllerClass>
+	<dotnetnuke type="Package" version="5.0">
+		<packages>
+			<package name="Dnn_DancersChoice_Meret" type="Module" version="00.00.01">
+				<friendlyName>Dnn_DancersChoice_Meret</friendlyName>
+				<description>Dnn_DancersChoice_Meret</description>
+				<iconFile>~/Icons/Sigma/Software_32X32_Standard.png</iconFile>
+				<owner>
+					<name>ITGirls</name>
+					<organization>ITGirls</organization>
+					<url>http://www.dnndev.me/</url>
+					<email>anna.szerdahelyi@stud.uni-corvinus.hu</email>
+				</owner>
+				<license src="License.txt" />
+				<releaseNotes src="ReleaseNotes.txt" />
+				<dependencies>
+					<dependency type="CoreVersion">09.08.00</dependency>
+				</dependencies>
+				<components>
+					<component type="Script">
+						<scripts>
+							<basePath>DesktopModules\MVC\Dnn_DancersChoice_Meret</basePath>
+							<script type="Install">
+								<path>Providers\DataProviders\SqlDataProvider</path>
+								<name>00.00.01.SqlDataProvider</name>
+								<version>00.00.01</version>
+							</script>
+							<script type="UnInstall">
+								<path>Providers\DataProviders\SqlDataProvider</path>
+								<name>Uninstall.SqlDataProvider</name>
+								<version>00.00.01</version>
+							</script>
+						</scripts>
+					</component>
+					
+					<component type="ResourceFile">
+						<resourceFiles>
+							<basePath>DesktopModules/MVC/Dnn_DancersChoice_Meret</basePath>
+							<resourceFile>
+								<name>Resources.zip</name>
+							</resourceFile>
+						</resourceFiles>
+					</component>
+					<component type="Module">
+						<desktopModule>
+							<moduleName>Dnn_DancersChoice_Meret</moduleName>
+							<foldername>Dnn_DancersChoice_Meret</foldername>
+							<businessControllerClass>Dancers.Dnn.Dnn_DancersChoice_Meret.Components.FeatureController</businessControllerClass>
 						
 
-						<moduleDefinitions>
-							<moduleDefinition>
-								<friendlyName>Dnn_DancersChoice_Meret</friendlyName>
-								<defaultCacheTime>0</defaultCacheTime>
-								<moduleControls>
-									<moduleControl>
-										<controlKey />
-										<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/SizeWizard/Index.mvc</controlSrc>
-										<supportsPartialRendering>False</supportsPartialRendering>
-										<controlTitle>Méretválasztó</controlTitle>
-										<controlType>View</controlType>
-										<iconFile />
-										<helpUrl />
-										<viewOrder>0</viewOrder>
-									</moduleControl>
-									<moduleControl>
-										<controlKey>Edit</controlKey>
-										<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/Item/Edit.mvc</controlSrc>
-										<supportsPartialRendering>False</supportsPartialRendering>
-										<controlTitle>Edit Content</controlTitle>
-										<controlType>Edit</controlType>
-										<iconFile />
-										<helpUrl />
-										<viewOrder>1</viewOrder>
-										<supportsPopUps>True</supportsPopUps>
-									</moduleControl>
-									<moduleControl>
-										<controlKey>Settings</controlKey>
-										<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/Settings/Settings.mvc</controlSrc>
-										<supportsPartialRendering>False</supportsPartialRendering>
-										<controlTitle>Dnn_DancersChoice_Meret Settings</controlTitle>
-										<controlType>Edit</controlType>
-										<iconFile />
-										<helpUrl />
-										<viewOrder>2</viewOrder>
-									</moduleControl>
-								</moduleControls>
-							</moduleDefinition>
-						</moduleDefinitions>
-					</desktopModule>
-				</component>
-				<component type="Assembly">
-					<assemblies>
-						<assembly>
-							<name>Dnn_DancersChoice_Meret.dll</name>
-							<path>bin</path>
-						</assembly>
-					</assemblies>
-				</component>
-			</components>
-		</package>
-	</packages>
-</dotnetnuke>
+							<moduleDefinitions>
+								<moduleDefinition>
+									<friendlyName>Dnn_DancersChoice_Meret</friendlyName>
+									<defaultCacheTime>0</defaultCacheTime>
+									<moduleControls>
+										<moduleControl>
+											<controlKey />
+											<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/SizeWizard/Index.mvc</controlSrc>
+											<supportsPartialRendering>False</supportsPartialRendering>
+											<controlTitle>Méretválasztó</controlTitle>
+											<controlType>View</controlType>
+											<iconFile />
+											<helpUrl />
+											<viewOrder>0</viewOrder>
+										</moduleControl>
+										<moduleControl>
+											<controlKey>Edit</controlKey>
+											<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/Item/Edit.mvc</controlSrc>
+											<supportsPartialRendering>False</supportsPartialRendering>
+											<controlTitle>Edit Content</controlTitle>
+											<controlType>Edit</controlType>
+											<iconFile />
+											<helpUrl />
+											<viewOrder>1</viewOrder>
+											<supportsPopUps>True</supportsPopUps>
+										</moduleControl>
+										<moduleControl>
+											<controlKey>Settings</controlKey>
+											<controlSrc>Dancers.Dnn.Dnn_DancersChoice_Meret/Settings/Settings.mvc</controlSrc>
+											<supportsPartialRendering>False</supportsPartialRendering>
+											<controlTitle>Dnn_DancersChoice_Meret Settings</controlTitle>
+											<controlType>Edit</controlType>
+											<iconFile />
+											<helpUrl />
+											<viewOrder>2</viewOrder>
+										</moduleControl>
+									</moduleControls>
+								</moduleDefinition>
+							</moduleDefinitions>
+						</desktopModule>
+					</component>
+					<component type="Assembly">
+						<assemblies>
+							<assembly>
+								<name>Dnn_DancersChoice_Meret.dll</name>
+								<path>bin</path>
+							</assembly>
+						</assemblies>
+					</component>
+				</components>
+			</package>
+		</packages>
+	</dotnetnuke>

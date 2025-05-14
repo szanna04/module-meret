@@ -1,0 +1,16 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<List<Dancers.Dnn.Dnn_DancersChoice_Meret.Models.Product>>
+
+<h2>Ajánlott termékek</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @foreach (var product in Model)
+    {
+        <div class="border rounded-xl shadow p-4">
+            <img src="https://raw.githubusercontent.com/szanna04/dancerskepek/main@product.ImageUrl" alt="@product.Name" class="w-full h-48 object-cover rounded" />
+            <h2 class="text-xl font-semibold mt-2">@product.Name</h2>
+            <p class="text-gray-600">@product.Price</p>
+            <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/@product.Slug" class="inline-block mt-2 text-blue-600 hover:underline">
+                Részletek
+            </a>
+        </div>
+    }
+</div>

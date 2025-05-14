@@ -120,12 +120,14 @@
     </Compile>
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Components\ItemManager.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SizeApiController.cs" />
     <Compile Include="Controllers\SizeRecommendationController.cs" />
     <Compile Include="Controllers\SizeWizardController.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\SizeInput.cs" />
     <Compile Include="Models\SizeRecommendation.cs" />
@@ -183,7 +185,11 @@
     <Content Include="Views\Settings\Settings.cshtml" />
     <Content Include="Views\SizeRecommendation\Index.cshtml" />
     <Content Include="Views\SizeWizard\Index.cshtml" />
-    <Content Include="Adat\Hotcakes_Products.xlsx" />
+    <Content Include="Adat\Hotcakes_Products.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\SizeWizard\ProductSuggestions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -20,27 +20,35 @@
             document.getElementById(current).style.display = 'none';
             document.getElementById(next).style.display = 'flex';
 
-            // Kép megjelenítése vagy elrejtése
-            const sideImgContainer = document.querySelector('#wizardModal img.side-image')?.parentElement;
-            if (sideImgContainer) {
-                sideImgContainer.style.display = (next === 'offersStep') ? 'none' : 'block';
+            const sideImg = document.getElementById('sideImageContainer');
+            if (sideImg) {
+                sideImg.style.display = (next === 'offersStep') ? 'none' : 'block';
             }
 
-            // Kategóriakép frissítése
-            if (formData.category && next !== 'offersStep') {
+            if (formData.category) {
                 const imageMap = {
                     'Dressz': 'dressz.jpg',
                     'Nadrág': 'naci.jpg',
                     'Szoknya': 'szoknya.png',
                     'Pulóver': 'pulcsi.jpg'
                 };
+
                 const img = document.querySelector('#wizardModal img.side-image');
                 if (img && imageMap[formData.category]) {
                     img.src = '/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/' + imageMap[formData.category];
                 }
             }
-        }
 
+
+            if (next === 'step4') {
+                const category = formData["category"];
+
+                document.getElementById('bustSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver') ? 'block' : 'none';
+                document.getElementById('hipSizeGroup').style.display = (category === 'Dressz' || category === 'Nadrág' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
+                document.getElementById('waistSizeGroup').style.display = (category === 'Dressz' || category === 'Pulóver' || category === 'Szoknya') ? 'block' : 'none';
+                document.getElementById('legLengthGroup').style.display = (category === 'Nadrág') ? 'block' : 'none';
+            }
+        }
 
 
         function prevStep(current, previous) {
@@ -118,7 +126,9 @@
 
         function goToOffers() {
             nextStep('result', 'offersStep');
+            renderProducts(formData.category);
         }
+
 
 
         function goToCategoryPage() {
@@ -160,6 +170,141 @@
             button.classList.add('active');
             saveValue(key, value);
         }
+        const productMap = {
+            'Dressz': [
+                {
+                    name: '"Rózsaharmat" Hálós Balettdressz Finom Csipkével',
+                    price: '16 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/Leot_3.png',
+                    slug: 'rózsaharmat-hálós-balettdressz-finom-csipkével'
+                },
+                {
+                    name: '"Bordó Virágvarázs" Hímzett Balettdressz Hálós Részletekkel',
+                    price: '18 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/Leot_4.jpg',
+                    slug: 'bordó-virágvarázs-hímzett-balettdressz-hálós-részletekkel'
+                },
+                {
+                    name: 'Csipkés fekete balett dressz',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/leot_1.jpg',
+                    slug: 'csipkés-fekete-balett-dressz'
+                },
+                {
+                    name: 'Rózsaszín balett dressz',
+                    price: '7 500,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/leot_2.png',
+                    slug: 'rózsaszín-balett-dressz'
+                }
+            ],
+
+            'Pulóver': [
+                {
+                    name: 'Bézs laza kapucnis pulóver',
+                    price: '7 500,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_7.jpg',
+                    slug: 'bézs-laza-kapucnis-pulóver'
+                },
+                {
+                    name: 'Rózsaszín bolyhos pulóver',
+                    price: '7 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_8.jpg',
+                    slug: 'rózsaszín-bolyhos-pulóver'
+                },
+                {
+                    name: 'Sötétkék balett pulóver',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_4.jpg',
+                    slug: 'sötétkék-balett-pulóver'
+                },
+                {
+                    name: 'Hímzett balerina pulóver',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_5.jpg',
+                    slug: 'hímzett-balerina-pulóver'
+                }
+            ],
+
+            'Szoknya': [
+                {
+                    name: 'Bézs tánc szoknya selyemszalaggal',
+                    price: '10 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_10.png',
+                    slug: 'bézs-tánc-szoknya-selyemszalaggal'
+                },
+                {
+                    name: 'Korall hosszú tánc szoknya megkötős derékrésszel',
+                    price: '10 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_9.jpg',
+                    slug: 'korall-hosszú-tánc-szoknya-megkötős-derékrésszel'
+                },
+                {
+                    name: 'Klasszikus rózsaszín tüllszoknya',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/Skirt_2.png',
+                    slug: 'klasszikus-rózsaszín-tüllszoknya'
+                },
+                {
+                    name: 'Lila rövid tüll balettszoknya',
+                    price: '12 000 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_5.jpg',
+                    slug: 'lila-rövid-tüll-balettszoknya'
+                }
+            ],
+            'Nadrág': [
+                {
+                    name: '"Black Grace" Balett Leggings Hímzett Balerina Motívummal',
+                    price: '7 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Legg_2.jpg',
+                    slug: 'black-grace-balett-leggings-hímzett-balerina-motívummal'
+                },
+                {
+                    name: '"Étoile Charcoal" Balerina Joggings Nadrág',
+                    price: '7 500,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Jogg_4.jpg',
+                    slug: 'étoile-charcoal-balerina-joggings-nadrág'
+                },
+                {
+                    name: '"Plié Pink" Ballet Joggings Nadrág',
+                    price: '7 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Jogg_5.jpg',
+                    slug: 'plié-pink-ballet-joggings-nadrág'
+                },
+                {
+                    name: '"Silver Grace" Balerina Joggings Nadrág',
+                    price: '6 800,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Jogg_1.jpg',
+                    slug: 'silver-grace-balerina-joggings-nadrág'
+                }
+            ]
+
+
+        };
+
+        function renderProducts(category) {
+            const container = document.getElementById("offersStep");
+            container.innerHTML = "<h2>Ajánlott termékek</h2>"; // töröljük a korábban megjelent elemeket
+
+            const products = productMap[category] || [];
+            const grid = document.createElement("div");
+            grid.className = "product-grid";
+
+            products.forEach(product => {
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+            <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug/${product.slug}">
+                <img src="${product.imageUrl}" alt="${product.name}" />
+                <h4>${product.name}</h4>
+                <p>${product.price}</p>
+            </a>
+        `;
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+                   }
+
     </script>
 
     <style>
@@ -319,9 +464,10 @@
 
 <div id="wizardModal">
     <div class="modal-content">
-        <div>
+        <div id="sideImageContainer">
             <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png" alt="Bábu" class="side-image">
         </div>
+
         <div style="flex:1; display: flex; flex-direction: column; justify-content: center;">
             <button id="closeWizardBtn" class="close-modal">&times;</button>
 
@@ -397,21 +543,6 @@
                     <button type="button" class="wizard-button" onclick="nextStep('step3', 'step4')">Folytatás</button>
                 </div>
             </div>
-            <!-- STEP 5: szabási preferencia -->
-            <div id="step5" class="wizard-step">
-                <label class="input-label">Szabási preferencia:</label><br />
-                <div>
-                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon szűk')">Nagyon szűk</button>
-                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Szűk')">Szűk</button>
-                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Átlagos')">Átlagos</button>
-                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Bő')">Bő</button>
-                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon bő')">Nagyon bő</button>
-                </div>
-                <div style="margin-top: 20px;">
-                    <button type="button" class="wizard-button back" onclick="prevStep('step5', 'step4')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="submitWizard()">Ajánlott méret megjelenítése</button>
-                </div>
-            </div>
 
             <!-- STEP 4: további méretek -->
             <div id="step4" class="wizard-step">
@@ -465,6 +596,24 @@
                 </div>
             </div>
 
+            <!-- STEP 5: szabási preferencia -->
+            <div id="step5" class="wizard-step">
+                <label class="input-label">Szabási preferencia:</label><br />
+                <div>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon szűk')">Nagyon szűk</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Szűk')">Szűk</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Átlagos')">Átlagos</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Bő')">Bő</button>
+                    <button type="button" class="choice-button" onclick="setChoice(this, 'fitPreference', 'Nagyon bő')">Nagyon bő</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button type="button" class="wizard-button back" onclick="prevStep('step5', 'step4')">Vissza</button>
+                    <button type="button" class="wizard-button" onclick="submitWizard()">Ajánlott méret megjelenítése</button>
+                </div>
+            </div>
+
+
+
 
             <!-- RESULT -->
             <div id="result" class="wizard-step">
@@ -484,33 +633,13 @@
                 </div>
             </div>
 
-            <!-- OFFERS STEP -->
             <div id="offersStep" class="wizard-step">
-                <h2>Ajánlott termékek</h2>
 
-                <div class="product-card">
-                    <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug//black-grace-balett-leggings-hímzett-balerina-motívummal">
-                        <img src="https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Legg_2.jpg" alt="Black Grace Balett Leggings Hímzett Balerina Motívummal" />
-                        <h4>"Black Grace" Balett Leggings Hímzett Balerina Motívummal</h4>
-                        <p>7 000,00 Ft</p>
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug//étoile-charcoal-balerina-joggings-nadrág">
-                        <img src="https://raw.githubusercontent.com/szanna04/dancerskepek/main/nacik/Jogg_4.jpg" alt="Étoile Charcoal Balerina Joggings Nadrág" />
-                        <h4>"Étoile Charcoal" Balerina Joggings Nadrág</h4>
-                        <p>7 500,00 Ft</p>
-                    </a>
-                </div>
-
-
-                              
                 <button type="button" class="wizard-button" id="viewWebshopCategoryBtn" onclick="goToCategoryPage()" style="display: none;">Tovább a kategóriára</button>
+
+
+
             </div>
-
-
-
         </div>
     </div>
 </div>

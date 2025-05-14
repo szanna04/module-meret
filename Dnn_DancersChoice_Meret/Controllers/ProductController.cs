@@ -1,22 +1,21 @@
-﻿using DotNetNuke.Web.Mvc.Framework.Controllers;
+﻿using Hotcakes.Commerce.Catalog;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using System;
+using Dancers.Dnn.Dnn_DancersChoice_Meret.Models;
+
 
 namespace Dancers.Dnn.Dnn_DancersChoice_Meret.Controllers
 {
-    public class SizeWizardController : DnnController
+    public class ProductController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string category)
         {
-            return View();
-        }
-        public ActionResult ProductSuggestions(string category)
-        {
-            var filePath = HostingEnvironment.MapPath("~/DesktopModules/MVC/Dnn_DancersChoice_Meret/data/Hotcakes_Products.csv");
-
+            var filePath = HostingEnvironment.MapPath("~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Adat/Hotcakes_Products.csv");
             var lines = System.IO.File.ReadAllLines(filePath, Encoding.UTF8);
 
             var products = lines
@@ -32,12 +31,10 @@ namespace Dancers.Dnn.Dnn_DancersChoice_Meret.Controllers
                     Category = parts[4]
                 })
                 .Where(p => p.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
-                .Take(4)
                 .ToList();
 
-            return PartialView("ProductSuggestions", products); // !!! EZ A FONTOS !!!
+            return View(products);
         }
-
-
     }
+
 }
