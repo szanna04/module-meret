@@ -93,14 +93,15 @@
 
                     if (data.size && data.size !== "Ismeretlen") {
                         sizePrefix.innerText = "A méreted: ";
-                        resultSize.innerText = data.size;
+                        resultSize.innerHTML = `<strong>${data.size}</strong>`;
                         unknownMessage.style.display = "none";
                         viewOffersBtn.style.display = 'inline-block';
                         
                         nextStep('step5', 'result');
                     } else {
                         sizePrefix.innerText = "A méreted:";
-                        resultSize.innerText = "Ismeretlen";
+                        resultSize.innerHTML = "<strong>Ismeretlen</strong>";
+
                         unknownMessage.style.display = "block";
                         viewOffersBtn.style.display = 'none';
                         
@@ -173,6 +174,18 @@
                     price: '7 500,00 Ft',
                     imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/leot_2.png',
                     slug: 'rózsaszín-balett-dressz'
+                },
+                {
+                    name: 'Kék balett ruha díszített felsőrésszel',
+                    price: '9 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/skirt_11.jpg',
+                    slug: 'kék-balett-ruha-díszített-felsőrésszel'
+                },
+                {
+                    name: 'Csipkés rózsaszín balett felső',
+                    price: '5 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/dressz/shirt_2.png',
+                    slug: 'csipkés-rózsaszín-balett-felső'
                 }
             ],
 
@@ -200,6 +213,30 @@
                     price: '8 000,00 Ft',
                     imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_5.jpg',
                     slug: 'hímzett-balerina-pulóver'
+                },
+                {
+                    name: 'Világoskék kapucnis pulóver',
+                    price: '7 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_2.jpg',
+                    slug: 'világoskék-kapucnis-pulóver'
+                },
+                {
+                    name: 'Szürke balerina pulóver',
+                    price: '8 500,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_6.jpg',
+                    slug: 'szürke-balerina-pulóver'
+                },
+                {
+                    name: 'Masnis kapucnis pulóver',
+                    price: '6 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_1.jpg',
+                    slug: 'masnis-kapucnis-pulóver'
+                },
+                {
+                    name: 'Puha világoskék pulóver',
+                    price: '6 500,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/pulcsi/hoodie_3.jpg',
+                    slug: 'puha-világoskék-pulóver'
                 }
             ],
 
@@ -227,7 +264,44 @@
                     price: '12 000 Ft',
                     imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_5.jpg',
                     slug: 'lila-rövid-tüll-balettszoknya'
+                },
+                {
+                    name: 'Bézs balett szoknya megkötős derékrésszel',
+                    price: '7 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_14.png',
+                    slug: 'bézs-balett-szoknya-megkötős-derékrésszel'
+                },
+                {
+                    name: 'Fehér tánc szoknya selyemszalaggal',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_13.png',
+                    slug: 'fehér-tánc-szoknya-selyemszalaggal'
+                },
+                {
+                    name: 'Kék rövid tüll balettszoknya',
+                    price: '12 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_8.jpg',
+                    slug: 'kék-rövid-tüll-balettszoknya'
+                },
+                {
+                    name: 'Kék tüll balettszoknya',
+                    price: '8 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_12.jpg',
+                    slug: 'kék-tüll-balettszoknya'
+                },
+                {
+                    name: 'Piros rövid tüll balettszoknya',
+                    price: '13 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_7.jpg',
+                    slug: 'piros-rövid-tüll-balettszoknya'
+                },
+                {
+                    name: 'Rózsaszín csillogó tüll balettszoknya',
+                    price: '14 000,00 Ft',
+                    imageUrl: 'https://raw.githubusercontent.com/szanna04/dancerskepek/main/szoknya/skirt_6.jpg',
+                    slug: 'rózsaszín-csillogó-tüll-balettszoknya'
                 }
+
             ],
             'Nadrág': [
                 {
@@ -269,22 +343,27 @@
 
         function renderProducts(category) {
             const container = document.getElementById("offersStep");
-            container.innerHTML = "<h2>Ajánlott termékek</h2>"; // töröljük a korábban megjelent elemeket
+            container.innerHTML = "<h2>Ajánlott termékek</h2>";
 
-            const products = productMap[category] || [];
+            const allProducts = productMap[category] || [];
+
+            // Véletlenszerű 4 termék kiválasztása
+            const shuffled = allProducts.sort(() => 0.5 - Math.random());
+            const selectedProducts = shuffled.slice(0, 4);
+
             const grid = document.createElement("div");
             grid.className = "product-grid";
 
-            products.forEach(product => {
+            selectedProducts.forEach(product => {
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.innerHTML = `
-                <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug/${product.slug}">
-                    <img src="${product.imageUrl}" alt="${product.name}" />
-                    <h4>${product.name}</h4>
-                    <p>${product.price}</p>
-                </a>
-            `;
+            <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug/${product.slug}">
+                <img src="${product.imageUrl}" alt="${product.name}" />
+                <h4>${product.name}</h4>
+                <p>${product.price}</p>
+            </a>
+        `;
                 grid.appendChild(card);
             });
 
@@ -517,7 +596,22 @@
                 </div>
                 <div style="margin-top: 20px;">
                     <button type="button" class="wizard-button back" onclick="prevStep('step1', 'step0')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="saveValue('height', document.getElementById('height').value); saveValue('weight', document.getElementById('weight').value); nextStep('step1', 'step2');">Folytatás</button>
+                    <!--<button type="button" class="wizard-button" onclick="saveValue('height', document.getElementById('height').value); saveValue('weight', document.getElementById('weight').value); nextStep('step1', 'step2');">Folytatás</button>-->
+                    <button type="button" class="wizard-button" onclick="
+                        const height = document.getElementById('height').value;
+                        const weight = document.getElementById('weight').value;
+
+                        if (!height || !weight) {
+                            alert('Kérjük, válaszd ki a magasságot és a súlyt is a folytatáshoz!');
+                        } else {
+                            saveValue('height', height);
+                            saveValue('weight', weight);
+                            nextStep('step1', 'step2');
+                        }
+                    ">
+                        Folytatás
+                    </button>
+
                 </div>
             </div>
             <!-- STEP 2: hasforma -->
@@ -531,7 +625,15 @@
                 </div>
                 <div style="margin-top: 20px;">
                     <button type="button" class="wizard-button back" onclick="prevStep('step2', 'step1')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="nextStep('step2', 'step3')">Folytatás</button>
+                    <button type="button" class="wizard-button" onclick="
+                    if (!formData.bellyShape) {
+                        alert('Kérjük, válaszd ki a hasad formáját a folytatáshoz!');
+                    } else {
+                        nextStep('step2', 'step3');
+                    }
+                ">
+                        Folytatás
+                    </button>
                 </div>
             </div>
             <!-- STEP 3: csípőforma -->
@@ -545,7 +647,15 @@
                 </div>
                 <div style="margin-top: 20px;">
                     <button type="button" class="wizard-button back" onclick="prevStep('step3', 'step2')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="nextStep('step3', 'step4')">Folytatás</button>
+                    <button type="button" class="wizard-button" onclick="
+                        if (!formData.hipShape) {
+                            alert('Kérjük, válaszd ki a csípőd formáját a folytatáshoz!');
+                        } else {
+                            nextStep('step3', 'step4');
+                        }
+                    ">
+                        Folytatás
+                    </button>
                 </div>
             </div>
 
@@ -595,10 +705,34 @@
                         <option value="100-109">100–109</option>
                     </select>
                 </div>
+
                 <div style="margin-top: 20px;">
                     <button type="button" class="wizard-button back" onclick="prevStep('step4', 'step3')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="saveValue('bustSize', document.getElementById('bustSize').value); saveValue('hipSize', document.getElementById('hipSize').value); saveValue('waistSize', document.getElementById('waistSize').value); saveValue('legLength', document.getElementById('legLength').value); nextStep('step4', 'step5')">Folytatás</button>
+
+                    <button type="button" class="wizard-button" onclick="
+                            const bust=document.getElementById('bustSize');
+                            const hip=document.getElementById('hipSize');
+                            const waist=document.getElementById('waistSize');
+                            const leg=document.getElementById('legLength');
+                            const visibleAndEmpty=[];
+                            if (bust && bust.offsetParent !== null && bust.value ==='' ) visibleAndEmpty.push('mellkasméret');
+                            if (hip && hip.offsetParent !== null && hip.value ==='' ) visibleAndEmpty.push('csípőméret');
+                            if (waist && waist.offsetParent !== null && waist.value ==='' ) visibleAndEmpty.push('derékméret');
+                            if (leg && leg.offsetParent !== null && leg.value ==='' ) visibleAndEmpty.push('lábszárhossz');
+                            if (visibleAndEmpty.length>
+                        0) {
+                        alert('Kérjük, válaszd ki a következő méreteket: ' + visibleAndEmpty.join(', '));
+                        } else {
+                        saveValue('bustSize', bust.value);
+                        saveValue('hipSize', hip.value);
+                        saveValue('waistSize', waist.value);
+                        saveValue('legLength', leg.value);
+                        nextStep('step4', 'step5');
+                        }
+                        ">Folytatás
+                    </button>
                 </div>
+
             </div>
 
             <!-- STEP 5: szabási preferencia -->
@@ -613,8 +747,17 @@
                 </div>
                 <div style="margin-top: 20px;">
                     <button type="button" class="wizard-button back" onclick="prevStep('step5', 'step4')">Vissza</button>
-                    <button type="button" class="wizard-button" onclick="submitWizard()">Ajánlott méret megjelenítése</button>
-                </div>
+                    <button type="button" class="wizard-button" onclick="
+                        if (!formData.fitPreference) {
+                            alert('Kérjük, válaszd ki a szabási preferenciád a folytatáshoz!');
+                        } else {
+                            submitWizard();
+                        }
+                    ">
+                                        Ajánlott méret megjelenítése
+                                    </button>
+                                </div>
+
             </div>
 
 
