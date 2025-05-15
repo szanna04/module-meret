@@ -1,4 +1,4 @@
-﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
+﻿﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
 
 @{
     Layout = "~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Views/Shared/_Layout.cshtml";
@@ -87,7 +87,7 @@
                     const sizePrefix = document.getElementById('sizePrefix');
                     const unknownMessage = document.getElementById('unknownSizeMessage');
                     const viewOffersBtn = document.getElementById('viewOffersBtn');
-                    const viewCategoryBtn = document.getElementById('viewWebshopCategoryBtn');
+                    
 
 
 
@@ -96,14 +96,14 @@
                         resultSize.innerText = data.size;
                         unknownMessage.style.display = "none";
                         viewOffersBtn.style.display = 'inline-block';
-                        viewCategoryBtn.style.display = 'inline-block';
+                        
                         nextStep('step5', 'result');
                     } else {
                         sizePrefix.innerText = "A méreted:";
                         resultSize.innerText = "Ismeretlen";
                         unknownMessage.style.display = "block";
                         viewOffersBtn.style.display = 'none';
-                        viewCategoryBtn.style.display = 'none';
+                        
                         nextStep('step5', 'result');
                     }
                 });
@@ -128,28 +128,6 @@
             nextStep('result', 'offersStep');
             renderProducts(formData.category);
         }
-
-
-
-        function goToCategoryPage() {
-            const categorySlugMap = {
-                'Dressz': 'ruha',
-                'Nadrág': 'bemelegitoruhak',
-                'Szoknya': 'szoknya',
-                'Pulóver': 'pulc3b3verek'
-            };
-
-            const category = formData.category;
-            const slug = categorySlugMap[category];
-
-            if (slug) {
-                const targetUrl = `http://rendfejl1004.northeurope.cloudapp.azure.com:8080/termekek/slug/${slug}`;
-                window.location.href = targetUrl;
-            } else {
-                alert("Ismeretlen kategória, nem tudtunk tovább navigálni.");
-            }
-        }
-
 
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('openWizardBtn').addEventListener('click', function () {
@@ -281,6 +259,14 @@
 
         };
 
+        const categoryLinkMap = {
+            'Dressz': 'http://rendfejl1004.northeurope.cloudapp.azure.com:8080/termekek/slug/ruha',
+            'Nadrág': 'http://rendfejl1004.northeurope.cloudapp.azure.com:8080/termekek/slug/bemelegitoruhak',
+            'Szoknya': 'http://rendfejl1004.northeurope.cloudapp.azure.com:8080/termekek/slug/szoknya',
+            'Pulóver': 'http://rendfejl1004.northeurope.cloudapp.azure.com:8080/termekek/slug/pulc3b3verek'
+        };
+
+
         function renderProducts(category) {
             const container = document.getElementById("offersStep");
             container.innerHTML = "<h2>Ajánlott termékek</h2>"; // töröljük a korábban megjelent elemeket
@@ -293,17 +279,37 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.innerHTML = `
-            <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug/${product.slug}">
-                <img src="${product.imageUrl}" alt="${product.name}" />
-                <h4>${product.name}</h4>
-                <p>${product.price}</p>
-            </a>
-        `;
+                <a href="http://rendfejl1004.northeurope.cloudapp.azure.com:8080/hotcakesstore/termekreszletek/slug/${product.slug}">
+                    <img src="${product.imageUrl}" alt="${product.name}" />
+                    <h4>${product.name}</h4>
+                    <p>${product.price}</p>
+                </a>
+            `;
                 grid.appendChild(card);
             });
 
             container.appendChild(grid);
-                   }
+
+            const trimmedCategory = category ? category.trim() : null;
+            const categoryLink = categoryLinkMap[trimmedCategory];
+
+            if (categoryLink) {
+                const link = document.createElement("a");
+                link.href = categoryLink;
+                link.className = "wizard-button";
+                link.innerText = "Tovább a kategóriára";
+
+                const btnWrapper = document.createElement("div");
+                btnWrapper.style.textAlign = "center";
+                btnWrapper.style.marginTop = "30px";
+                btnWrapper.appendChild(link);
+
+                container.appendChild(btnWrapper);
+            } else {
+                console.warn("Hiányzó vagy hibás kategória:", category);
+            }
+
+        }
 
     </script>
 
@@ -456,7 +462,6 @@
                 max-width: 100%;
                 border-radius: 8px;
             }
-
     </style>
 }
 
@@ -635,10 +640,7 @@
 
             <div id="offersStep" class="wizard-step">
 
-                <button type="button" class="wizard-button" id="viewWebshopCategoryBtn" onclick="goToCategoryPage()" style="display: none;">Tovább a kategóriára</button>
-
-
-
+                
             </div>
         </div>
     </div>
