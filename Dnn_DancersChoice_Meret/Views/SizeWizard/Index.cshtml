@@ -16,9 +16,42 @@
             formData[key] = value;
         }
 
+        function updateProgressBar(stepId) {
+            const progress = document.getElementById('progressIndicator');
+
+            // Ne jelenjen meg a result vagy offersStep lépéseknél
+            if (stepId === 'result' || stepId === 'offersStep') {
+                progress.style.display = 'none';
+                return;
+            } else {
+                progress.style.display = 'flex';
+            }
+
+            const stepMap = {
+                'step0': 0,
+                'step1': 1,
+                'step2': 2,
+                'step3': 3,
+                'step4': 4,
+                'step5': 5
+            };
+
+            const dots = document.querySelectorAll('.step-dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            const index = stepMap[stepId];
+            if (index !== undefined) {
+                dots[index].classList.add('active');
+            }
+        }
+
+
+
         function nextStep(current, next) {
             document.getElementById(current).style.display = 'none';
             document.getElementById(next).style.display = 'flex';
+
+            updateProgressBar(next);
 
             const sideImg = document.getElementById('sideImageContainer');
             if (sideImg) {
@@ -39,7 +72,6 @@
                 }
             }
 
-
             if (next === 'step4') {
                 const category = formData["category"];
 
@@ -54,6 +86,8 @@
         function prevStep(current, previous) {
             document.getElementById(current).style.display = 'none';
             document.getElementById(previous).style.display = 'flex';
+
+            updateProgressBar(previous);
 
             // Ha visszalépünk a főoldalra, állítsuk vissza a mind.png képet
             if (previous === 'step0') {
@@ -541,6 +575,27 @@
                 max-width: 100%;
                 border-radius: 8px;
             }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px auto 10px auto;
+            padding-bottom: 20px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #e0d6ce;
+            transition: background-color 0.3s ease;
+        }
+
+            .step-dot.active {
+                background-color: #4F4239;
+            }
+
     </style>
 }
 
@@ -548,12 +603,18 @@
 
 <div id="wizardModal">
     <div class="modal-content">
+
+
         <div id="sideImageContainer">
             <img src="~/DesktopModules/MVC/Dnn_DancersChoice_Meret/Images/mind.png" alt="Bábu" class="side-image">
         </div>
 
+
+
         <div style="flex:1; display: flex; flex-direction: column; justify-content: center;">
             <button id="closeWizardBtn" class="close-modal">&times;</button>
+
+
 
             <!-- STEP 0 -->
             <div id="step0" class="wizard-step">
@@ -565,6 +626,8 @@
                     <button type="button" class="choice-button" onclick="setChoice(this, 'category', 'Pulóver'); nextStep('step0', 'step1');">Pulóver</button>
                 </div>
             </div>
+
+
 
             <!-- STEP 1 -->
             <div id="step1" class="wizard-step">
@@ -613,6 +676,8 @@
                     </button>
 
                 </div>
+
+
             </div>
             <!-- STEP 2: hasforma -->
             <div id="step2" class="wizard-step">
@@ -714,22 +779,23 @@
                             const hip=document.getElementById('hipSize');
                             const waist=document.getElementById('waistSize');
                             const leg=document.getElementById('legLength');
+
                             const visibleAndEmpty=[];
-                            if (bust && bust.offsetParent !== null && bust.value ==='' ) visibleAndEmpty.push('mellkasméret');
-                            if (hip && hip.offsetParent !== null && hip.value ==='' ) visibleAndEmpty.push('csípőméret');
-                            if (waist && waist.offsetParent !== null && waist.value ==='' ) visibleAndEmpty.push('derékméret');
-                            if (leg && leg.offsetParent !== null && leg.value ==='' ) visibleAndEmpty.push('lábszárhossz');
-                            if (visibleAndEmpty.length>
-                        0) {
-                        alert('Kérjük, válaszd ki a következő méreteket: ' + visibleAndEmpty.join(', '));
+
+                            if (bust && bust.offsetParent !== null && bust.value==='' ) visibleAndEmpty.push('mellkasméret');
+                            if (hip && hip.offsetParent !== null && hip.value==='' ) visibleAndEmpty.push('csípőméret');
+                            if (waist && waist.offsetParent !== null && waist.value==='' ) visibleAndEmpty.push('derékméret');
+                            if (leg && leg.offsetParent !== null && leg.value==='' ) visibleAndEmpty.push('lábszárhossz');
+
+                            if (visibleAndEmpty.length>0) {
+                                alert('Kérjük, válaszd ki a következő méreteket: ' + visibleAndEmpty.join(', '));
                         } else {
-                        saveValue('bustSize', bust.value);
-                        saveValue('hipSize', hip.value);
-                        saveValue('waistSize', waist.value);
-                        saveValue('legLength', leg.value);
-                        nextStep('step4', 'step5');
-                        }
-                        ">Folytatás
+                                saveValue('bustSize', bust.value);
+                                saveValue('hipSize', hip.value);
+                                saveValue('waistSize', waist.value);
+                                saveValue('legLength', leg.value);
+                                nextStep('step4', 'step5');
+                        }">Folytatás
                     </button>
                 </div>
 
@@ -754,9 +820,9 @@
                             submitWizard();
                         }
                     ">
-                                        Ajánlott méret megjelenítése
-                                    </button>
-                                </div>
+                        Ajánlott méret megjelenítése
+                    </button>
+                </div>
 
             </div>
 
@@ -783,7 +849,16 @@
 
             <div id="offersStep" class="wizard-step">
 
-                
+
+            </div>
+
+            <div id="progressIndicator" class="step-indicator">
+                <span class="step-dot" data-step="step0"></span>
+                <span class="step-dot" data-step="step1"></span>
+                <span class="step-dot" data-step="step2"></span>
+                <span class="step-dot" data-step="step3"></span>
+                <span class="step-dot" data-step="step4"></span>
+                <span class="step-dot" data-step="step5"></span>
             </div>
         </div>
     </div>
